@@ -1,0 +1,22 @@
+## This file is part of Whonix.
+## Copyright (C) 2012 - 2014 Patrick Schleizer <adrelanos@riseup.net>
+## See the file COPYING for copying conditions.
+
+Source: whonix-ws-firewall
+Section: misc
+Priority: optional
+Maintainer: Patrick Schleizer <adrelanos@riseup.net>
+Build-Depends: debhelper (>= 8), faketime, git, ruby-ronn (>= 0.7.3)
+Homepage: https://github.com/Whonix/whonix-ws-firewall
+Vcs-Browser: https://github.com/Whonix/whonix-ws-firewall
+Vcs-Git: https://github.com/Whonix/whonix-ws-firewall.git
+Standards-Version: 3.9.4
+
+Package: whonix-ws-firewall
+Architecture: all
+Depends: ${misc:Depends}
+Description: Whonix-Workstation's Firewall
+ This is a second, extra firewall for Whonix-Workstation.
+ Experts should read the design notes in
+ man whonix_firewall
+ and make an informed decision.
