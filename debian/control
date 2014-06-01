@@ -14,7 +14,7 @@ Standards-Version: 3.9.4
 
 Package: whonix-ws-firewall
 Architecture: all
-Depends: ${misc:Depends}
+Depends: iptables, ${misc:Depends}
 Description: Whonix-Workstation's Firewall
  This is a second, extra firewall for Whonix-Workstation.
  Experts should read the design notes in
