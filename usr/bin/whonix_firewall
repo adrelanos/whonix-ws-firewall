@@ -84,12 +84,12 @@ trap "error_handler" ERR
 ##        such as OnionCat or OpenVPN.
 
 ## External interface
-EXT_IF="eth0"
+[ -n "$EXT_IF" ] || EXT_IF="eth0"
 
 ## Internal interface
-INT_IF="eth1"
+[ -n "$INT_IF" ] || INT_IF="eth1"
 
-GATEWAY_IP="11.150.150.150"
+[ -n "$GATEWAY_IP" ] || GATEWAY_IP="11.150.150.150"
 
 ###########################
 ## IPv4 DEFAULTS
