@@ -14,3 +14,9 @@
 ## 0 disabled
 ## 1 enabled
 WORKSTATION_FIREWALL=0
+
+##########
+## Misc ##
+##########
+
+NO_REJECT_INVALID_OUTGOING_PACKAGES=0

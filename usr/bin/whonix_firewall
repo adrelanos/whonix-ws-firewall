@@ -114,11 +114,12 @@ iptables -t nat -X
 iptables -t mangle -F
 iptables -t mangle -X
 
-############################
-## IPv4 DROP INVALID PACKAGES
-############################
+######################################
+## IPv4 DROP INVALID INCOMING PACKAGES
+######################################
 
 ## DROP INVALID
+iptables -A INPUT -m conntrack --ctstate INVALID -j DROP
 iptables -A INPUT -m state --state INVALID -j DROP
 
 ## DROP INVALID SYN PACKETS
@@ -159,6 +160,34 @@ iptables -A INPUT -j REJECT --reject-with icmp-port-unreachable
 
 iptables -A FORWARD -j DROP
 
+########################################
+## IPv4 REJECT INVALID OUTGOING PACKAGES
+########################################
+
+## Drop invalid outgoing packages,
+## unless NO_REJECT_INVALID_OUTGOING_PACKAGES is set to 1.
+if [ ! "$NO_REJECT_INVALID_OUTGOING_PACKAGES" = "1" ]; then
+   ## https://lists.torproject.org/pipermail/tor-talk/2014-March/032507.html
+   iptables -A OUTPUT -m conntrack --ctstate INVALID -j REJECT --reject-with icmp-admin-prohibited
+   iptables -A OUTPUT -m state --state INVALID -j REJECT --reject-with icmp-admin-prohibited
+   #iptables -A OUTPUT ! -o lo ! -d 127.0.0.1 ! -s 127.0.0.1 -p tcp -m tcp --tcp-flags ACK,FIN ACK,FIN -j REJECT --reject-with icmp-admin-prohibited
+   #iptables -A OUTPUT ! -o lo ! -d 127.0.0.1 ! -s 127.0.0.1 -p tcp -m tcp --tcp-flags ACK,RST ACK,RST -j REJECT --reject-with icmp-admin-prohibited
+
+   ## DROP INVALID SYN PACKETS
+   iptables -A OUTPUT -p tcp --tcp-flags ALL ACK,RST,SYN,FIN -j REJECT --reject-with icmp-admin-prohibited
+   iptables -A OUTPUT -p tcp --tcp-flags SYN,FIN SYN,FIN -j REJECT --reject-with icmp-admin-prohibited
+   iptables -A OUTPUT -p tcp --tcp-flags SYN,RST SYN,RST -j REJECT --reject-with icmp-admin-prohibited
+
+   ## DROP PACKETS WITH INCOMING FRAGMENTS. THIS ATTACK ONCE RESULTED IN KERNEL PANICS
+   iptables -A OUTPUT -f -j REJECT --reject-with icmp-admin-prohibited
+
+   ## DROP INCOMING MALFORMED XMAS PACKETS
+   iptables -A OUTPUT -p tcp --tcp-flags ALL ALL -j REJECT --reject-with icmp-admin-prohibited
+
+   ## DROP INCOMING MALFORMED NULL PACKETS
+   iptables -A OUTPUT -p tcp --tcp-flags ALL NONE -j REJECT --reject-with icmp-admin-prohibited
+fi
+
 ###########################
 ## IPv4 OUTPUT
 ###########################
@@ -167,7 +196,7 @@ iptables -A FORWARD -j DROP
 iptables -A OUTPUT -o lo -j ACCEPT
 
 ## Allow Whonix-Workstation to query Whonix-Gateway for DNS.
-iptables -A OUTPUT -p udp --dport 53 --dst 192.168.0.10 -j ACCEPT
+iptables -A OUTPUT -p udp --dport 53 --dst 11.150.150.150 -j ACCEPT
 
 ## Not sure about the next one. UDP is not supported by Tor, why not
 ## block any outgoing UDP. Might have unwanted side effects when tunneling
@@ -186,7 +215,7 @@ iptables -A OUTPUT -p udp --dport 53 --dst 192.168.0.10 -j ACCEPT
 ##     4 packets transmitted, 0 received, 100% packet loss, time 3000ms
 ##
 ## (4) ping torproject.org
-##     From 192.168.0.11 icmp_seq=1 Destination Port Unreachable
+##     From 11.150.150.151 icmp_seq=1 Destination Port Unreachable
 ##     0 packets transmitted, 0 received, +100 errors
 ##
 ## The next rule ensures, that only tcp can leave and achieves the desired result from (4).
