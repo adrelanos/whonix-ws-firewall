@@ -23,8 +23,8 @@ for i in /etc/whonix_firewall.d/*; do
    fi
 done
 
-set -x
 if [ ! "$WORKSTATION_FIREWALL" = "1" ]; then
+   set -x
    : " "
    : " "
    : "#################################################"
