@@ -89,7 +89,7 @@ trap "error_handler" ERR
 ## Internal interface
 [ -n "$INT_IF" ] || INT_IF="eth1"
 
-[ -n "$GATEWAY_IP" ] || GATEWAY_IP="11.150.150.150"
+[ -n "$GATEWAY_IP" ] || GATEWAY_IP="10.152.152.10"
 
 ###########################
 ## IPv4 DEFAULTS
@@ -217,7 +217,7 @@ iptables -A OUTPUT -p udp --dport 53 --dst "$GATEWAY_IP" -j ACCEPT
 ##     4 packets transmitted, 0 received, 100% packet loss, time 3000ms
 ##
 ## (4) ping torproject.org
-##     From 11.150.150.151 icmp_seq=1 Destination Port Unreachable
+##     From 10.152.152.11 icmp_seq=1 Destination Port Unreachable
 ##     0 packets transmitted, 0 received, +100 errors
 ##
 ## The next rule ensures, that only tcp can leave and achieves the desired result from (4).
