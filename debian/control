@@ -14,7 +14,9 @@ Standards-Version: 3.9.4
 
 Package: whonix-ws-firewall
 Architecture: all
-Depends: iptables, whonix-ws-network-conf, ${misc:Depends}
+## whonix-ws-network-conf depends on ifupdown, netbase, but can not directly
+## depend on it due to conflicts with chroot.
+Depends: iptables, whonix-ws-network-conf, ifupdown, netbase, ${misc:Depends}
 Description: Whonix-Workstation's Firewall
  This is a second, extra firewall for Whonix-Workstation.
  Experts should read the design notes in
