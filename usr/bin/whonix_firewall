@@ -233,7 +233,7 @@ iptables -A OUTPUT -p udp --dport 53 --dst "$GATEWAY_IP" -j ACCEPT
 iptables -A OUTPUT ! -p tcp -j REJECT --reject-with icmp-port-unreachable
 
 ## Allow full outgoing connection but no incoming stuff.
-iptables -A OUTPUT -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
+iptables -A OUTPUT -j ACCEPT
 
 ## Logging in case, needed for debugging.
 #iptables -A OUTPUT -j LOG
