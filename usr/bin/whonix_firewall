@@ -212,25 +212,26 @@ iptables -A OUTPUT -p udp --dport 53 --dst "$GATEWAY_IP" -j ACCEPT
 ## Not sure about the next one. UDP is not supported by Tor, why not
 ## block any outgoing UDP. Might have unwanted side effects when tunneling
 ## UDP over Tor.
-## https://trac.torproject.org/projects/tor/wiki/doc/TorBOX/OptionalConfigurations/TunnelingUDPoverTor
+## https://www.whonix.org/wiki/Tunnel_UDP_over_Tor
 ##
 ## All other non-TCP protocol traffic gets rejected.
 ## iptables knows 7 different protocols and all.
 ## (tcp, udp, udplite, icmp, esp, ah, sctp or all)
 ##
-## The following rule (1) does for some unknown reason, not make rule (2) redundant.
-## (1) iptables -A OUTPUT -p udp -j REJECT --reject-with icmp-port-unreachable -> (3)
-## (2) iptables -A OUTPUT -p icmp -j REJECT --reject-with icmp-port-unreachable -> (4)
-##
-## (3) ping torproject.org
+## (1) ping torproject.org
 ##     4 packets transmitted, 0 received, 100% packet loss, time 3000ms
 ##
-## (4) ping torproject.org
+## (2) ping torproject.org
 ##     From 10.152.152.11 icmp_seq=1 Destination Port Unreachable
 ##     0 packets transmitted, 0 received, +100 errors
 ##
-## The next rule ensures, that only tcp can leave and achieves the desired result from (4).
-iptables -A OUTPUT ! -p tcp -j REJECT --reject-with icmp-port-unreachable
+## The next rule ensures, that only tcp can leave and achieves the desired result from (2).
+##
+## Currently disabled, until someone researches this further, because causing issues.
+## Very low priority. See also:
+## https://www.whonix.org/forum/index.php/topic,834
+##
+#iptables -A OUTPUT ! -p tcp -j REJECT --reject-with icmp-port-unreachable
 
 ## Allow full outgoing connection but no incoming stuff.
 iptables -A OUTPUT -j ACCEPT
