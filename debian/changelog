@@ -1,3 +1,9 @@
+whonix-ws-firewall (3:0.6-1) unstable; urgency=low
+
+  * New upstream version.
+
+ -- Patrick Schleizer <adrelanos@riseup.net>  Wed, 04 Feb 2015 00:53:05 +0000
+
 whonix-ws-firewall (3:0.5-1) unstable; urgency=low
 
   * New upstream version.
