@@ -165,6 +165,10 @@ iptables -A INPUT -m state --state ESTABLISHED -j ACCEPT
 ## Log.
 #iptables -A INPUT -j LOG --log-prefix "Whonix blocked input4: "
 
+## Required for Control Port Filter Proxy Connection.
+## https://phabricator.whonix.org/T112
+iptables -A INPUT -p tcp -j REJECT --reject-with tcp-reset
+
 ## Reject anything not explicitly allowed above.
 iptables -A INPUT -j REJECT --reject-with icmp-port-unreachable
 
