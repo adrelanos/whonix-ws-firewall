@@ -101,7 +101,11 @@ trap "error_handler" ERR
 ## Internal interface
 [ -n "$INT_IF" ] || INT_IF="eth1"
 
-[ -n "$GATEWAY_IP" ] || GATEWAY_IP="10.152.152.10"
+if [ -d "/usr/lib/qubes" ]; then
+   [ -n "$GATEWAY_IP" ] || GATEWAY_IP="$(qubesdb-read /qubes-gateway)"
+else
+   [ -n "$GATEWAY_IP" ] || GATEWAY_IP="10.152.152.10"
+fi
 
 ###########################
 ## IPv4 DEFAULTS
