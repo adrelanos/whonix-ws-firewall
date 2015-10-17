@@ -102,6 +102,7 @@ trap "error_handler" ERR
 [ -n "$INT_IF" ] || INT_IF="eth1"
 
 if [ -d "/usr/lib/qubes" ]; then
+   ## Would fail if netvm is set to 'none'.
    [ -n "$GATEWAY_IP" ] || GATEWAY_IP="$(qubesdb-read /qubes-gateway)"
 else
    [ -n "$GATEWAY_IP" ] || GATEWAY_IP="10.152.152.10"
