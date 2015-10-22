@@ -1,3 +1,21 @@
+commit cb4d3a3c1a91220ecd2af9238ed8b0088f5ee4e9
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Oct 17 18:37:31 2015 +0000
+
+    comment
+
+commit 30baa3773677704464cf9cf1905f9723a09a78ba
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Sep 18 23:42:52 2015 +0000
+
+    native Qubes support
+
+commit 3b66064eea96f6c5bf92778a92ebaf218f1f8eec
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Aug 25 14:08:39 2015 +0000
+
+    bumped changelog version
+
 commit 5360cb5f9af4e6e5695347ecec497684d8d6ff5f
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Jun 6 15:22:42 2015 +0000
