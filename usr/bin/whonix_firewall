@@ -97,6 +97,33 @@ else
    [ -n "$GATEWAY_IP" ] || GATEWAY_IP="10.152.152.10"
 fi
 
+[ -n "$TUNNEL_USER" ] || TUNNEL_USER="$(id -u tunnel)"
+
+################
+## VPN related #
+################
+
+[ -n "$VPN_INTERFACE" ] || VPN_INTERFACE="tun0"
+
+## Destinations you do not routed through VPN, only for Whonix-Gateway.
+if [ "$LOCAL_NET" = "" ]; then
+   if [ -d "/usr/lib/qubes" ]; then
+      LOCAL_NET="\
+         127.0.0.0-127.0.0.24 \
+         10.137.0.0-10.138.255.255 \
+      "
+   else
+      ## 10.0.2.2/24: VirtualBox DHCP
+      LOCAL_NET="\
+         127.0.0.0-127.0.0.24 \
+         192.168.0.0-192.168.0.24 \
+         192.168.1.0-192.168.1.24 \
+         10.152.152.0-10.152.152.24 \
+         10.0.2.2-10.0.2.24 \
+      "
+   fi
+fi
+
 ###########################
 ## IPv4 DEFAULTS
 ###########################
@@ -153,6 +180,13 @@ $iptables_cmd -A INPUT -i lo -j ACCEPT
 
 ## Established incoming connections are accepted.
 $iptables_cmd -A INPUT -m state --state ESTABLISHED -j ACCEPT
+
+## Allow all incoming connections on the virtual VPN network interface,
+## when VPN_FIREWALL mode is enabled.
+## DISABLED BY DEFAULT.
+if [ "$VPN_FIREWALL" = "1" ]; then
+   $iptables_cmd -A INPUT -i "$VPN_INTERFACE" -j ACCEPT
+fi
 
 ##+# OptionalFeatureNr.2#
 ##+# Uncomment the following line, if you want to use a Hidden Service
@@ -213,36 +247,60 @@ fi
 ## Allow unlimited traffic on localhost.
 $iptables_cmd -A OUTPUT -o lo -j ACCEPT
 
-## Allow Whonix-Workstation to query Whonix-Gateway for DNS.
-$iptables_cmd -A OUTPUT -p udp --dport 53 --dst "$GATEWAY_IP" -j ACCEPT
+## Allow outgoing traffic on VPN interface,
+## if VPN_FIREWALL mode is enabled.
+## DISABLED BY DEFAULT.
+if [ "$VPN_FIREWALL" = "1" ]; then
+   $iptables_cmd -A OUTPUT -o "$VPN_INTERFACE" -j ACCEPT
 
-## Not sure about the next one. UDP is not supported by Tor, why not
-## block any outgoing UDP. Might have unwanted side effects when tunneling
-## UDP over Tor.
-## https://www.whonix.org/wiki/Tunnel_UDP_over_Tor
-##
-## All other non-TCP protocol traffic gets rejected.
-## iptables knows 7 different protocols and all.
-## (tcp, udp, udplite, icmp, esp, ah, sctp or all)
-##
-## (1) ping torproject.org
-##     4 packets transmitted, 0 received, 100% packet loss, time 3000ms
-##
-## (2) ping torproject.org
-##     From 10.152.152.11 icmp_seq=1 Destination Port Unreachable
-##     0 packets transmitted, 0 received, +100 errors
-##
-## The next rule ensures, that only tcp can leave and achieves the desired result from (2).
-$iptables_cmd -A OUTPUT ! -p tcp -j REJECT --reject-with icmp-port-unreachable
+   ## TODO
+   ## Accept outgoing connections to local network,
+   ## when VPN_FIREWALL mode is enabled.
+   ## DISABLED BY DEFAULT.
+   if [ "$VPN_FIREWALL" = "1" ]; then
+      for NET in $LOCAL_NET; do
+      $iptables_cmd -A OUTPUT -m iprange --dst-range "$NET" -j ACCEPT
+      done
+   fi
 
-## Allow full outgoing connection but no incoming stuff.
-$iptables_cmd -A OUTPUT -j ACCEPT
+   ## Connections to VPN servers are allowed,
+   ## when VPN_FIREWALL mode is enabled.
+   ## DISABLED BY DEFAULT.
+   if [ "$VPN_FIREWALL" = "1" ]; then
+      $iptables_cmd -A OUTPUT -m owner --uid-owner "$TUNNEL_USER" -j ACCEPT
+   fi
+else
+   ## Allow Whonix-Workstation to query Whonix-Gateway for DNS.
+   $iptables_cmd -A OUTPUT -p udp --dport 53 --dst "$GATEWAY_IP" -j ACCEPT
 
-## Log.
-#$iptables_cmd -A OUTPUT -j LOG --log-prefix "Whonix blocked output4: "
+   ## Not sure about the next one. UDP is not supported by Tor, why not
+   ## block any outgoing UDP. Might have unwanted side effects when tunneling
+   ## UDP over Tor.
+   ## https://www.whonix.org/wiki/Tunnel_UDP_over_Tor
+   ##
+   ## All other non-TCP protocol traffic gets rejected.
+   ## iptables knows 7 different protocols and all.
+   ## (tcp, udp, udplite, icmp, esp, ah, sctp or all)
+   ##
+   ## (1) ping torproject.org
+   ##     4 packets transmitted, 0 received, 100% packet loss, time 3000ms
+   ##
+   ## (2) ping torproject.org
+   ##     From 10.152.152.11 icmp_seq=1 Destination Port Unreachable
+   ##     0 packets transmitted, 0 received, +100 errors
+   ##
+   ## The next rule ensures, that only tcp can leave and achieves the desired result from (2).
+   $iptables_cmd -A OUTPUT ! -p tcp -j REJECT --reject-with icmp-port-unreachable
 
-## Reject all other outgoing traffic.
-$iptables_cmd -A OUTPUT -j REJECT --reject-with icmp-port-unreachable
+   ## Allow full outgoing connection but no incoming stuff.
+   $iptables_cmd -A OUTPUT -j ACCEPT
+
+   ## Log.
+   #$iptables_cmd -A OUTPUT -j LOG --log-prefix "Whonix blocked output4: "
+
+   ## Reject all other outgoing traffic.
+   $iptables_cmd -A OUTPUT -j REJECT --reject-with icmp-port-unreachable
+fi
 
 ###########################
 ## IPv6
