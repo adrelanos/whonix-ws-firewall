@@ -31,8 +31,11 @@ case "$1" in
          else
             echo "INFO: Creating user '$user_account'..."
             if command -v qubesdb-read >/dev/null 2>&1 ; then
+               ## Qubes-Whonix
+               ## Qubes does by upstream default not use linux user account passwords.
                password=""
             else
+               ## Non-Qubes-Whonix
                ## setting password of user $user_account to changeme
                ##
                ## How this password was created:
@@ -42,7 +45,7 @@ case "$1" in
                ## Resulted in: aTayYxVyw5kDo
                password="aTayYxVyw5kDo"
             fi
-         useradd --create-home --password "$password" --user-group --shell /bin/bash "$user_account"
+            useradd --create-home --password "$password" --user-group --shell /bin/bash "$user_account"
          fi
       done
 
