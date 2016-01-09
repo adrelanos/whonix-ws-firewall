@@ -21,7 +21,11 @@ $bash_n_output" >&2
    source "$i"
 done
 
-if [ "$WORKSTATION_FIREWALL" = "1" ] || [ "$VPN_FIREWALL" = "1" ]; then
+if [ "$VPN_FIREWALL" = "1" ]; then
+   TUNNEL_FIREWALL_ENABLE="true"
+fi
+
+if [ "$WORKSTATION_FIREWALL" = "1" ] || [ "$TUNNEL_FIREWALL_ENABLE" = "true" ]; then
    true
 else
    set -x
@@ -100,6 +104,10 @@ else
 fi
 
 [ -n "$TUNNEL_USER" ] || TUNNEL_USER="$(id -u tunnel)"
+[ -n "$SDWDATE_USER" ] || SDWDATE_USER="$(id -u sdwdate)" || true
+
+## Control Port Filter Proxy Port
+[ -n "$CONTROL_PORT_FILTER_PROXY_PORT" ] || CONTROL_PORT_FILTER_PROXY_PORT="9052"
 
 ################
 ## VPN related #
@@ -107,7 +115,7 @@ fi
 
 [ -n "$VPN_INTERFACE" ] || VPN_INTERFACE="tun0"
 
-## Destinations you do not routed through VPN, only for Whonix-Gateway.
+## Destinations you do not routed through VPN.
 if [ "$LOCAL_NET" = "" ]; then
    if [ -d "/usr/lib/qubes" ]; then
       LOCAL_NET="\
@@ -184,9 +192,9 @@ $iptables_cmd -A INPUT -i lo -j ACCEPT
 $iptables_cmd -A INPUT -m state --state ESTABLISHED -j ACCEPT
 
 ## Allow all incoming connections on the virtual VPN network interface,
-## when VPN_FIREWALL mode is enabled.
+## when TUNNEL_FIREWALL_ENABLE mode is enabled.
 ## DISABLED BY DEFAULT.
-if [ "$VPN_FIREWALL" = "1" ]; then
+if [ "$TUNNEL_FIREWALL_ENABLE" = "true" ]; then
    $iptables_cmd -A INPUT -i "$VPN_INTERFACE" -j ACCEPT
 fi
 
@@ -250,26 +258,27 @@ fi
 $iptables_cmd -A OUTPUT -o lo -j ACCEPT
 
 ## Allow outgoing traffic on VPN interface,
-## if VPN_FIREWALL mode is enabled.
+## if TUNNEL_FIREWALL_ENABLE mode is enabled.
 ## DISABLED BY DEFAULT.
-if [ "$VPN_FIREWALL" = "1" ]; then
+if [ "$TUNNEL_FIREWALL_ENABLE" = "true" ]; then
    $iptables_cmd -A OUTPUT -o "$VPN_INTERFACE" -j ACCEPT
 
-   ## TODO
-   ## Accept outgoing connections to local network,
-   ## when VPN_FIREWALL mode is enabled.
-   ## DISABLED BY DEFAULT.
-   if [ "$VPN_FIREWALL" = "1" ]; then
+   ## Connections to VPN servers are allowed,
+   $iptables_cmd -A OUTPUT -m owner --uid-owner "$TUNNEL_USER" -j ACCEPT
+
+   if [ "$TUNNEL_FIREWALL_ALLOW_SDWDATE_USER" = "true" ]; then
+      $iptables_cmd -A OUTPUT -m owner --uid-owner "$SDWDATE_USER" -j ACCEPT || true
+   fi
+
+   ## Accept outgoing connections to local network.
+   if [ "$TUNNEL_FIREWALL_ALLOW_LOCAL_NET" = "true" ]; then
       for NET in $LOCAL_NET; do
-      $iptables_cmd -A OUTPUT -m iprange --dst-range "$NET" -j ACCEPT
+         $iptables_cmd -A OUTPUT -m iprange --dst-range "$NET" -j ACCEPT
       done
    fi
 
-   ## Connections to VPN servers are allowed,
-   ## when VPN_FIREWALL mode is enabled.
-   ## DISABLED BY DEFAULT.
-   if [ "$VPN_FIREWALL" = "1" ]; then
-      $iptables_cmd -A OUTPUT -m owner --uid-owner "$TUNNEL_USER" -j ACCEPT
+   if [ "$TUNNEL_FIREWALL_ALLOW_CONTROL_PORT_FILTER_PROXY" = "true" ]; then
+      $iptables_cmd -A OUTPUT -p tcp --dport "$CONTROL_PORT_FILTER_PROXY_PORT" --dst "$GATEWAY_IP" -j ACCEPT
    fi
 else
    ## Allow Whonix-Workstation to query Whonix-Gateway for DNS.
