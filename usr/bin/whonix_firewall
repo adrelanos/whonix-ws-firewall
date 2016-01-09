@@ -21,7 +21,9 @@ $bash_n_output" >&2
    source "$i"
 done
 
-if [ ! "$WORKSTATION_FIREWALL" = "1" ]; then
+if [ "$WORKSTATION_FIREWALL" = "1" ] || [ "$VPN_FIREWALL" = "1" ]; then
+   true
+else
    set -x
    : " "
    : " "
