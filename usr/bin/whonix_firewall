@@ -198,9 +198,7 @@ if [ "$TUNNEL_FIREWALL_ENABLE" = "true" ]; then
    $iptables_cmd -A INPUT -i "$VPN_INTERFACE" -j ACCEPT
 fi
 
-##+# OptionalFeatureNr.2#
-##+# Uncomment the following line, if you want to use a Hidden Service
-##+# on port 12345.
+## Uncomment the following line, if you want to use a Hidden Service on port 12345.
 #$iptables_cmd -A INPUT -p tcp --dport 12345 -j ACCEPT
 
 ## Log.
