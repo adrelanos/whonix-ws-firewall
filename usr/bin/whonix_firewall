@@ -106,8 +106,44 @@ fi
 [ -n "$TUNNEL_USER" ] || TUNNEL_USER="$(id -u tunnel)"
 [ -n "$SDWDATE_USER" ] || SDWDATE_USER="$(id -u sdwdate)" || true
 
+###########################
+## PORTS
+###########################
+
 ## Control Port Filter Proxy Port
 [ -n "$CONTROL_PORT_FILTER_PROXY_PORT" ] || CONTROL_PORT_FILTER_PROXY_PORT="9052"
+
+## Socks Ports for per application circuits.
+[ -n "$SOCKS_PORT_TOR_DEFAULT" ] || SOCKS_PORT_TOR_DEFAULT="9050"
+[ -n "$SOCKS_PORT_TB" ] || SOCKS_PORT_TB="9100"
+[ -n "$SOCKS_PORT_IRC" ] || SOCKS_PORT_IRC="9101"
+[ -n "$SOCKS_PORT_TORBIRDY" ] || SOCKS_PORT_TORBIRDY="9102"
+[ -n "$SOCKS_PORT_IM" ] || SOCKS_PORT_IM="9103"
+[ -n "$SOCKS_PORT_APT_GET" ] || SOCKS_PORT_APT_GET="9104"
+[ -n "$SOCKS_PORT_GPG" ] || SOCKS_PORT_GPG="9105"
+[ -n "$SOCKS_PORT_SSH" ] || SOCKS_PORT_SSH="9106"
+[ -n "$SOCKS_PORT_GIT" ] || SOCKS_PORT_GIT="9107"
+[ -n "$SOCKS_PORT_SDWDATE" ] || SOCKS_PORT_SDWDATE="9108"
+[ -n "$SOCKS_PORT_WGET" ] || SOCKS_PORT_WGET="9109"
+[ -n "$SOCKS_PORT_WHONIXCHECK" ] || SOCKS_PORT_WHONIXCHECK="9110"
+[ -n "$SOCKS_PORT_BITCOIN" ] || SOCKS_PORT_BITCOIN="9111"
+[ -n "$SOCKS_PORT_PRIVOXY" ] || SOCKS_PORT_PRIVOXY="9112"
+[ -n "$SOCKS_PORT_POLIPO" ] || SOCKS_PORT_POLIPO="9113"
+[ -n "$SOCKS_PORT_WHONIX_NEWS" ] || SOCKS_PORT_WHONIX_NEWS="9114"
+[ -n "$SOCKS_PORT_TBB_DOWNLOAD" ] || SOCKS_PORT_TBB_DOWNLOAD="9115"
+[ -n "$SOCKS_PORT_TBB_GPG" ] || SOCKS_PORT_TBB_GPG="9116"
+[ -n "$SOCKS_PORT_CURL" ] || SOCKS_PORT_CURL="9117"
+[ -n "$SOCKS_PORT_RSS" ] || SOCKS_PORT_RSS="9118"
+[ -n "$SOCKS_PORT_TORCHAT" ] || SOCKS_PORT_TORCHAT="9119"
+[ -n "$SOCKS_PORT_MIXMASTERUPDATE" ] || SOCKS_PORT_MIXMASTERUPDATE="9120"
+[ -n "$SOCKS_PORT_MIXMASTER" ] || SOCKS_PORT_MIXMASTER="9121"
+[ -n "$SOCKS_PORT_KDE" ] || SOCKS_PORT_KDE="9122"
+[ -n "$SOCKS_PORT_GNOME" ] || SOCKS_PORT_GNOME="9123"
+[ -n "$SOCKS_PORT_APTITUDE" ] || SOCKS_PORT_APTITUDE="9124"
+[ -n "$SOCKS_PORT_YUM" ] || SOCKS_PORT_YUM="9125"
+[ -n "$SOCKS_PORT_TBB_DEFAULT" ] || SOCKS_PORT_TBB_DEFAULT="9150"
+
+socks_ports_list="$(compgen -v | grep SOCKS\_PORT\_)"
 
 ################
 ## VPN related #
@@ -277,6 +313,18 @@ if [ "$TUNNEL_FIREWALL_ENABLE" = "true" ]; then
 
    if [ "$TUNNEL_FIREWALL_ALLOW_CONTROL_PORT_FILTER_PROXY" = "true" ]; then
       $iptables_cmd -A OUTPUT -p tcp --dport "$CONTROL_PORT_FILTER_PROXY_PORT" --dst "$GATEWAY_IP" -j ACCEPT
+   fi
+
+   if [ "$TUNNEL_FIREWALL_ALLOW_TB_UPDATER" = "true" ]; then
+      for socks_port in $SOCKS_PORT_TBB_DOWNLOAD $SOCKS_PORT_TBB_GPG ; do
+         $iptables_cmd -A OUTPUT -p tcp --dport "$socks_port" --dst "$GATEWAY_IP" -j ACCEPT
+      done
+   fi
+
+   if [ "$TUNNEL_FIREWALL_ALLOW_WHONIXCHECK" = "true" ]; then
+      for socks_port in $SOCKS_PORT_WHONIXCHECK $SOCKS_PORT_WHONIX_NEWS ; do
+         $iptables_cmd -A OUTPUT -p tcp --dport "$socks_port" --dst "$GATEWAY_IP" -j ACCEPT
+      done
    fi
 else
    ## Allow Whonix-Workstation to query Whonix-Gateway for DNS.
