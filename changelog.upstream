@@ -1,3 +1,83 @@
+commit e8674d48c9445def572d4a67fbcfe4e3c785a301
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 19 18:24:40 2016 +0100
+
+    also source /rw/config/whonix_firewall.d/
+    
+    https://forums.whonix.org/t/customizing-whonix-firewall-torified-dom0-upgrades/1356/14
+
+commit d065fab590b4793791d6ee0424f40d6e6d2321ea
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 17 21:25:55 2016 +0100
+
+    work on Whonix-Workstation VPN_FIREWALL feature
+    
+    https://phabricator.whonix.org/T158
+
+commit 77b7b730ed07b5345ce6efd6e7c48f71facf5bff
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 10 17:55:32 2016 +0000
+
+    comment
+
+commit 057cafbca9f44c43dad47c2320840bd176d2f45c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 9 20:50:08 2016 +0000
+
+    work on Whonix-Workstation VPN_FIREWALL feature
+    
+    https://phabricator.whonix.org/T158
+
+commit 78dcc2a9ff6b1d727adb86d69964fbba11482d1a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Jan 9 16:48:51 2016 +0000
+
+    also enable firewall when VPN_FIREWALL=1
+
+commit 10a5366cb5ea32928a4b0d945621d291da43cdcc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 8 21:08:30 2016 +0000
+
+    work on Whonix-Workstation VPN_FIREWALL feature
+    
+    https://phabricator.whonix.org/T158
+
+commit 9c4089407940691c3a1690eea3a18251b6fb7fc1
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Jan 8 21:05:33 2016 +0000
+
+    minor
+
+commit 8800603f701a0275c8e7d32447cff49e157af6a4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Dec 29 18:39:18 2015 +0100
+
+    create user 'tunnel'
+    
+    https://phabricator.whonix.org/T158
+
+commit 10f8fd3218fed57f7b04208bfa65900174c045ae
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Dec 1 21:41:18 2015 +0000
+
+    fixed config file parser if config folder does not exist
+
+commit 24baec332e1040056888cd0522760b4134b2920a
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Nov 30 19:45:32 2015 +0000
+
+    Only source configuration files that end with the '.conf' extension.
+    
+    Thanks to @nrgaway for the suggestion!
+    
+    https://phabricator.whonix.org/T286
+
+commit b9e95f7b0008fe47f05e2d47a585bcc6a8608fea
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Oct 22 23:12:46 2015 +0000
+
+    bumped changelog version
+
 commit cb4d3a3c1a91220ecd2af9238ed8b0088f5ee4e9
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Oct 17 18:37:31 2015 +0000
