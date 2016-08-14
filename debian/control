@@ -14,7 +14,7 @@ Standards-Version: 3.9.6
 
 Package: whonix-ws-firewall
 Architecture: all
-Depends: iptables, anon-shared-helper-scripts, ${misc:Depends}
+Depends: systemd, iptables, anon-shared-helper-scripts, ${misc:Depends}
 Conflicts: ufw
 Description: Whonix-Workstation's Firewall
  This is a second, extra firewall for Whonix-Workstation.
