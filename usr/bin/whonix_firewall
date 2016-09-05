@@ -376,7 +376,7 @@ status_files() {
 firewall_mode_detection() {
    if [ ! "$firewall_mode" = "" ]; then
       echo "OK: Skipping firewall mode detection since already set to '$firewall_mode'."
-      if [ "$firewall_mode" = "restricted" ]; then
+      if [ "$firewall_mode" = "timesync-fail-closed" ]; then
          echo "OK: (Only local Tor control port connections and torified sdwdate allowed.)"
          return 0
       elif [ "$firewall_mode" = "full" ]; then
@@ -384,7 +384,7 @@ firewall_mode_detection() {
          echo "OK: (Full torified network access allowed.)"
          return 0
       else
-         echo "ERROR: firewall_mode must be set to either 'full' or 'restricted'."
+         echo "ERROR: firewall_mode must be set to either 'full' or 'timesync-fail-closed'."
          error_handler
       fi
    fi
@@ -403,12 +403,12 @@ firewall_mode_detection() {
       echo "OK: (/var/run/whonix_firewall/first_run_current_boot.status exists.)"
    else
       ## /var/run/whonix_firewall/first_run_current_boot.status does not yet exist,
-      ## therefore return 'yes, restricted'.
-      firewall_mode=restricted
+      ## therefore return 'yes, timesync-fail-closed'.
+      firewall_mode=timesync-fail-closed
    fi
 
-   if [ "$firewall_mode" = "restricted" ]; then
-      echo "OK: First run during current boot, therefore running in restricted mode."
+   if [ "$firewall_mode" = "timesync-fail-closed" ]; then
+      echo "OK: First run during current boot, therefore running in timesync-fail-closed mode."
       echo "OK: (Only local Tor control port connections and torified sdwdate allowed.)"
    else
       echo "OK: Consecutive run during current boot, therefore running in full mode."
