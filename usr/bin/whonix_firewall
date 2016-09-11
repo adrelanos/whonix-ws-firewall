@@ -52,6 +52,7 @@ source_config_folder() {
 }
 
 variables_defaults() {
+   ## Legacy.
    if [ "$VPN_FIREWALL" = "1" ]; then
       TUNNEL_FIREWALL_ENABLE="true"
    fi
