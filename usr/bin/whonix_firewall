@@ -196,8 +196,10 @@ ipv4_input_rules() {
       $iptables_cmd -A INPUT -i "$VPN_INTERFACE" -j ACCEPT
    fi
 
-   ## Uncomment the following line, if you want to use a Hidden Service on port 12345.
-   #$iptables_cmd -A INPUT -p tcp --dport 12345 -j ACCEPT
+   local local_port_to_open
+   for local_port_to_open in $EXTERNAL_OPEN_PORTS; for
+      $iptables_cmd -A INPUT -p tcp --dport "$local_port_to_open" -j ACCEPT
+   done
 }
 
 ipv4_input_defaults() {
