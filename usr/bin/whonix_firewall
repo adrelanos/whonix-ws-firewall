@@ -30,9 +30,6 @@ init() {
 
    set -o pipefail
    set -o errtrace
-
-   [ -n "$iptables_cmd" ] || iptables_cmd="iptables --wait"
-   [ -n "$ip6tables_cmd" ] || ip6tables_cmd="ip6tables --wait"
 }
 
 source_config_folder() {
@@ -52,6 +49,9 @@ source_config_folder() {
 }
 
 variables_defaults() {
+   [ -n "$iptables_cmd" ] || iptables_cmd="iptables --wait"
+   [ -n "$ip6tables_cmd" ] || ip6tables_cmd="ip6tables --wait"
+
    ## Legacy.
    if [ "$VPN_FIREWALL" = "1" ]; then
       TUNNEL_FIREWALL_ENABLE="true"
