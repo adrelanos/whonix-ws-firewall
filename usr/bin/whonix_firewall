@@ -208,7 +208,7 @@ ipv4_input_rules() {
    fi
 
    local local_port_to_open
-   for local_port_to_open in $EXTERNAL_OPEN_PORTS; for
+   for local_port_to_open in $EXTERNAL_OPEN_PORTS; do
       $iptables_cmd -A INPUT -p tcp --dport "$local_port_to_open" -j ACCEPT
    done
 }
