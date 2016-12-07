@@ -90,7 +90,7 @@ variables_defaults() {
    [ -n "$WHONIXCHECK_USER" ] || WHONIXCHECK_USER="$(id -u whonixcheck)" || true
 
    ## Control Port Filter Proxy Port
-   [ -n "$CONTROL_PORT_FILTER_PROXY_PORT" ] || CONTROL_PORT_FILTER_PROXY_PORT="9052"
+   [ -n "$CONTROL_PORT_FILTER_PROXY_PORT" ] || CONTROL_PORT_FILTER_PROXY_PORT="9051"
 
    ## Socks Ports for per application circuits.
    [ -n "$SOCKS_PORT_TOR_DEFAULT" ] || SOCKS_PORT_TOR_DEFAULT="9050"
