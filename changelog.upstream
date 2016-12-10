@@ -1,3 +1,191 @@
+commit d4e77795329775801b47db34772303df1593210d
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Dec 7 20:18:11 2016 +0000
+
+    CONTROL_PORT_FILTER_PROXY_PORT="9051"
+    
+    https://phabricator.whonix.org/T573
+
+commit ed73466be1809b9fa7dde5b814f0d40bcd12503f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Nov 21 17:44:23 2016 +0000
+
+    readme
+
+commit ec348e5651008b301e9f71ecd40e6be7e4f4f8d3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Oct 12 23:20:55 2016 +0000
+
+    fix
+
+commit 28845cca125e74a9656a2863643875d22a4cb940
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Oct 12 19:58:10 2016 +0200
+
+    add unit test for stream isolation
+    
+    https://phabricator.whonix.org/T462
+
+commit 8321c2c2540879864dbb23f680ed999e8d698d69
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 15 22:36:40 2016 +0000
+
+    add firewall mode to sdwdate log
+    
+    https://phabricator.whonix.org/T551
+
+commit cd7979458d97e6958de53e4f3856970db91e7622
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Sep 15 22:35:11 2016 +0000
+
+    refactoring
+
+commit 8d7ec2b4c98094bc0771207a2c295d07e3307ef8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Sep 11 18:03:11 2016 +0200
+
+    comment
+
+commit b9748a591e06451cf1bc0d4b1a764500027b26fd
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Sep 11 17:55:12 2016 +0200
+
+    comments
+
+commit ab855deba1be278d6cd0c3c86a19376e0f824d14
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Sep 11 17:50:57 2016 +0200
+
+    add configuration option to open external ports
+    
+    EXTERNAL_OPEN_PORTS+=" 22 "
+    EXTERNAL_OPEN_PORTS+=" 9050 "
+    
+    https://phabricator.whonix.org/T533
+
+commit 9a02fb1cc429bc5450a671708d3dff0da2df257c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Sep 9 14:13:58 2016 +0000
+
+    iptables block network access until sdwdate succeeded
+    
+    enable Whonix-Workstation firewall by default
+    
+    removed feature to keep Whonix-Workstation firewall easily disabled by default
+    (can still be done by a /etc/whonix_firewall.d config snippet 'exit 0')
+    
+    https://phabricator.whonix.org/T533
+
+commit 684b24f6ea80e05aac6622633d196106a55c2fad
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Sep 5 20:45:31 2016 +0200
+
+    Create user sdwdate and whonxicheck
+    
+    so we do not have to depend on these packages.
+    
+    https://phabricator.whonix.org/T533
+
+commit d2de78155c7a62589573f5594d6281d20435160c
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Sep 5 16:58:51 2016 +0200
+
+    add whonix-firewall-sdwdate-watcher.service
+    
+    https://phabricator.whonix.org/T533
+
+commit e72928c0eeebe116d48e0cd668e0c633bcd69472
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Sep 5 16:55:12 2016 +0200
+
+    improved terminology restricted mode to timesync-fail-closed mode
+    
+    as suggested by @HulaHoopWhonix
+    
+    https://phabricator.whonix.org/T533
+
+commit db56fe209a3d18e3bf79e36a82dcde911cf03b22
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Aug 26 22:04:12 2016 +0000
+
+    refactoring / preparation for 'iptables block network access until sdwdate succeeded'
+    
+    https://phabricator.whonix.org/T533
+
+commit 8e349af5d836a882037e304866212bbe4093e8dd
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Aug 26 20:09:39 2016 +0000
+
+    whonix-firewall.service: Before=shutdown.target
+
+commit f70235f0f769376ceac9ca8e7b6ec75c567d677b
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Aug 14 21:14:33 2016 +0000
+
+    depend on systemd
+
+commit a570bba20ebc42ca298dfeda71ebfbd9896cebe5
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Aug 14 20:50:40 2016 +0000
+
+    add networking.service system drop-in to refuse to bring up network on whonix-firewall.service failure
+
+commit 4f118632141e1e5fd56a26be64e1eda456010113
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Aug 14 16:40:56 2016 +0000
+
+    systemd packaging
+
+commit 9cf0f40ac8a8f638590079257bc454c1b393797f
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Aug 14 18:29:07 2016 +0200
+
+    removed /etc/network/if-pre-up.d/30_whonix_firewall
+    
+    because ported to systemd
+
+commit ae6360be487b39d178a32eedf14439b2226458d4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Aug 14 18:26:53 2016 +0200
+
+    comment
+
+commit aa67868f0a3f813c9296c58a247bc302d1c521a8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Aug 14 18:25:56 2016 +0200
+
+    systemd legacy Alias=qubes-whonix-firewall.service
+
+commit d4010de73e6926dc9bbd7f95cdb12d9fc04cd4d0
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Aug 14 18:23:18 2016 +0200
+
+    import whonix-firewall.service from qubes-whonix package
+
+commit c4450501496ee5026292d0b2877e836ff555ffb8
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Aug 14 18:16:43 2016 +0200
+
+    fix dependencies
+    
+    Since issue "ifupdown, netbase are dependencies of whonix-gw-network-conf, that cannot
+    be added to whonix-gw-network-conf due to conflicts with chroot." was solved.
+    
+    Also no longer need to depend on whonix-(gw|ws)-network-conf since in future firewall
+    will be load using systemd service rather than /etc/network/pre-up.d.
+
+commit 7159b6c635b8bfd2dcc294d6456cc70bfb5bcdab
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Aug 14 16:23:39 2016 +0200
+
+    depend on anon-shared-helper-scripts for enable-firewall
+
+commit e18d3f8018f08ff6b6c8a2a2e5c1613c8ce39770
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Apr 7 22:55:02 2016 +0000
+
+    bumped changelog version
+
 commit e8674d48c9445def572d4a67fbcfe4e3c785a301
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Feb 19 18:24:40 2016 +0100
