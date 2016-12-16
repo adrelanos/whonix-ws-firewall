@@ -296,6 +296,9 @@ ipv4_output() {
          fi
       fi
 
+      ## TODO: temporary - https://phabricator.whonix.org/T533#10288
+      $iptables_cmd -A OUTPUT -m iprange --dst-range "127.0.0.1" -j ACCEPT
+
       if [ "$TUNNEL_FIREWALL_ALLOW_CONTROL_PORT_FILTER_PROXY" = "true" ]; then
          $iptables_cmd -A OUTPUT -p tcp --dport "$CONTROL_PORT_FILTER_PROXY_PORT" --dst "127.0.0.1" -j ACCEPT
          $iptables_cmd -A OUTPUT -p tcp --dport "$CONTROL_PORT_FILTER_PROXY_PORT" --dst "$GATEWAY_IP" -j ACCEPT
