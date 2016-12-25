@@ -207,10 +207,14 @@ ipv4_input_rules() {
       $iptables_cmd -A INPUT -i "$VPN_INTERFACE" -j ACCEPT
    fi
 
-   local local_port_to_open
-   for local_port_to_open in $EXTERNAL_OPEN_PORTS; do
-      $iptables_cmd -A INPUT -p tcp --dport "$local_port_to_open" -j ACCEPT
-   done
+   if [ "$firewall_mode" = "timesync-fail-closed" ]; then
+      true "firewall_mode is $firewall_mode, therefore not opening EXTERNAL_OPEN_PORTS."
+   else
+      local local_port_to_open
+      for local_port_to_open in $EXTERNAL_OPEN_PORTS; do
+         $iptables_cmd -A INPUT -p tcp --dport "$local_port_to_open" -j ACCEPT
+      done
+   fi
 }
 
 ipv4_input_defaults() {
