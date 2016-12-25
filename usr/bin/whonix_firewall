@@ -304,9 +304,9 @@ ipv4_output() {
          if [ "$firewall_mode" = "timesync-fail-closed" ]; then
             true
          else
-            local NET
-            for NET in $LOCAL_NET; do
-               $iptables_cmd -A OUTPUT -m iprange --dst-range "$NET" -j ACCEPT
+            local local_net_item
+            for local_net_item in $LOCAL_NET; do
+               $iptables_cmd -A OUTPUT -m iprange --dst-range "$local_net_item" -j ACCEPT
             done
          fi
       fi
