@@ -267,13 +267,13 @@ ipv4_output() {
    ## Prevent connections to Tor SocksPorts.
    ## https://phabricator.whonix.org/T533#11025
    if [ "$firewall_mode" = "timesync-fail-closed" ]; then
-      local socks_port_from_list
-      for socks_port_from_list in $socks_ports_list; do
-         true "$socks_port_from_list: ${!socks_port_from_list}"
-         if [ "$SOCKS_PORT_SDWDATE" = "${!socks_port_from_list}" ]; then
+      local socks_port_item
+      for socks_port_item in $socks_ports_list; do
+         true "$socks_port_item: ${!socks_port_item}"
+         if [ "$SOCKS_PORT_SDWDATE" = "${!socks_port_item}" ]; then
             continue
          fi
-         $iptables_cmd -A OUTPUT -p tcp --dport "${!socks_port_from_list}" --dst "127.0.0.1" -j REJECT
+         $iptables_cmd -A OUTPUT -p tcp --dport "${!socks_port_item}" --dst "127.0.0.1" -j REJECT
       done
    fi
 
