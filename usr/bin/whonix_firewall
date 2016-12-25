@@ -44,6 +44,7 @@ init() {
 
 source_config_folder() {
    shopt -s nullglob
+   local i
    for i in /etc/whonix_firewall.d/*.conf /rw/config/whonix_firewall.d/*.conf; do
       bash_n_exit_code="0"
       bash_n_output="$(bash -n "$i" 2>&1)" || { bash_n_exit_code="$?" ; true; };
@@ -266,12 +267,13 @@ ipv4_output() {
    ## Prevent connections to Tor SocksPorts.
    ## https://phabricator.whonix.org/T533#11025
    if [ "$firewall_mode" = "timesync-fail-closed" ]; then
-      for socks_port in $socks_ports_list; do
-         true "$socks_port: ${!socks_port}"
-         if [ "$SOCKS_PORT_SDWDATE" = "${!socks_port}" ]; then
+      local socks_port_from_list
+      for socks_port_from_list in $socks_ports_list; do
+         true "$socks_port_from_list: ${!socks_port_from_list}"
+         if [ "$SOCKS_PORT_SDWDATE" = "${!socks_port_from_list}" ]; then
             continue
          fi
-         $iptables_cmd -A OUTPUT -p tcp --dport "${!socks_port}" --dst "127.0.0.1" -j REJECT
+         $iptables_cmd -A OUTPUT -p tcp --dport "${!socks_port_from_list}" --dst "127.0.0.1" -j REJECT
       done
    fi
 
@@ -302,6 +304,7 @@ ipv4_output() {
          if [ "$firewall_mode" = "timesync-fail-closed" ]; then
             true
          else
+            local NET
             for NET in $LOCAL_NET; do
                $iptables_cmd -A OUTPUT -m iprange --dst-range "$NET" -j ACCEPT
             done
@@ -320,8 +323,9 @@ ipv4_output() {
          if [ "$firewall_mode" = "timesync-fail-closed" ]; then
             true
          else
-            for socks_port in $SOCKS_PORT_TBB_DOWNLOAD $SOCKS_PORT_TBB_GPG ; do
-               $iptables_cmd -A OUTPUT -p tcp --dport "$socks_port" --dst "$GATEWAY_IP" -j ACCEPT
+            local socks_port_tbb
+            for socks_port_tbb in $SOCKS_PORT_TBB_DOWNLOAD $SOCKS_PORT_TBB_GPG ; do
+               $iptables_cmd -A OUTPUT -p tcp --dport "$socks_port_tbb" --dst "$GATEWAY_IP" -j ACCEPT
             done
          fi
       fi
