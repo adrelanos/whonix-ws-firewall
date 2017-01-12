@@ -1,3 +1,69 @@
+commit 389b4894773bd959c5f98e5fdadc2f9b0753abfa
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Tue Jan 10 17:09:35 2017 +0000
+
+    add optional feature EXTERNAL_OPEN_ALL=true
+    
+    required for ricochet
+    
+    https://phabricator.whonix.org/T444
+
+commit 9c8ba0df98f96ffa3b630b817615daaf7cded435
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Jan 9 03:52:08 2017 +0000
+
+    add Documentation=
+    
+    to fix stretch lintian warning
+
+commit b2c8d4bc36f03bcd1dcdd9a64b6509c3328f23d2
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 8 05:42:46 2017 +0000
+
+    remove StandardOutput=syslog
+
+commit 9023ce560848a9c0ca80a5f93f1c428e099e15d5
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Dec 25 02:50:49 2016 +0000
+
+    improve variable name
+
+commit 37645ab459e2c17867c165d4e1b99468158088a7
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Dec 25 02:48:19 2016 +0000
+
+    improve local variable name
+
+commit 55ed7ad9fe33bbf6ffed2c678820f9b8ffdbb197
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Dec 25 02:41:50 2016 +0000
+
+    better variable names; `local`ize more variables
+
+commit 041eeb4b53e4ddfe559eec7dd4b3fa24025e93c3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Dec 25 02:38:06 2016 +0000
+
+    add timesync-fail-closed considerations to ipv4_input_rules
+    
+    https://phabricator.whonix.org/T533
+
+commit df5183dcecd62dae9329571c5ab0e57916bd6eb4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Dec 24 00:24:57 2016 +0100
+
+    Prevent connections to Tor SocksPorts in timesync-fail-closed mode.
+    
+    Access to localhost is required even in timesync-fail-closed mode, otherwise breaks applications such as konsole and kwrite.
+    
+    https://phabricator.whonix.org/T533#11025
+
+commit 9bc5cdf9596fe98d50acba11b07d7a799485eba0
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Dec 16 16:45:00 2016 +0000
+
+    bumped changelog version
+
 commit baea88f6e3bbdba0f0ecda00ecff90265906cc63
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Fri Dec 16 16:42:49 2016 +0000
