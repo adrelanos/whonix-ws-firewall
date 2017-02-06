@@ -1,3 +1,21 @@
+commit 54672c9e8a3cd4388b8191e9291514f7cad073ce
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 6 01:37:06 2017 +0000
+
+    add timestamp to sdwdate log
+
+commit fc1faf96ff3c95fbdd48f23a25b62d1b85c01e94
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Thu Feb 2 19:40:34 2017 +0100
+
+    document EXTERNAL_OPEN_ALL
+
+commit 2ba73b2488870bc3f1e558573b22faaa039d4b62
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sun Jan 15 15:40:19 2017 +0000
+
+    bumped changelog version
+
 commit 72d3ce7159c5ff586e66aa652165a3ea2a45a430
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sun Jan 15 07:49:56 2017 +0000
