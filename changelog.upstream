@@ -1,3 +1,35 @@
+commit de2bdc574b55f5d049b36cf02179c3313b4701dc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Feb 15 21:32:14 2017 +0000
+
+    add start menu entry to reload Whonix-Workstation firewall
+
+commit 38516cc769f273d69a3d91dfd7e366ba67259921
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 10 15:47:56 2017 +0000
+
+    remove faketime from Build-Depends:
+    
+    since no longer used for reproducible builds
+
+commit 39952885fd13eab89dcbe8ed20e63e8cb2f32bcc
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 10 15:35:34 2017 +0000
+
+    remove debian/gain-root-command workaround
+
+commit 6c8c91033c4d942215ab11368d0bd40a00e7781e
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Feb 10 15:27:22 2017 +0000
+
+    packaging simplification ruby-ronn (>= 0.7.3) -> ruby-ronn
+
+commit 80069c8c06b42a576cb01945e67166e4e20c29e3
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Mon Feb 6 02:11:39 2017 +0000
+
+    bumped changelog version
+
 commit 54672c9e8a3cd4388b8191e9291514f7cad073ce
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Mon Feb 6 01:37:06 2017 +0000
