@@ -4,7 +4,7 @@
 
 [Desktop Entry]
 Type=Application
-Exec=/usr/lib/gateway-shortcuts/wrapper /usr/lib/workstation-shortcuts/reloadfirewall
+Exec=/usr/lib/workstation-shortcuts/wrapper /usr/lib/workstation-shortcuts/reloadfirewall
 Name=Reload Firewall
 GenericName=Reload Whonix-Workstation Firewall
 Comment=Reload Whonix-Workstation Firewall using "sudo /usr/bin/whonix_firewall"
