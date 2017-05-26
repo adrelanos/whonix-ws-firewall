@@ -24,7 +24,7 @@ case "$1" in
       adduser --home /nonexistent --quiet --system --group whonixcheck || true
       adduser --home /nonexistent --quiet --system --group sdwdate || true
 
-      user_account_list="tunnel"
+      user_account_list="tunnel notunnel"
 
       for user_account in $user_account_list ; do
          ret="0"

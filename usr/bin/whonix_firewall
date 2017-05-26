@@ -87,8 +87,11 @@ variables_defaults() {
    fi
 
    [ -n "$TUNNEL_USER" ] || TUNNEL_USER="$(id -u tunnel)"
+   [ -n "$NOTUNNEL_USER" ] || NOTUNNEL_USER="$(id -u notunnel)"
    [ -n "$SDWDATE_USER" ] || SDWDATE_USER="$(id -u sdwdate)" || true
    [ -n "$WHONIXCHECK_USER" ] || WHONIXCHECK_USER="$(id -u whonixcheck)" || true
+
+   [ -n "$TUNNEL_FIREWALL_ALLOW_NOTUNNEL_USER" ] || TUNNEL_FIREWALL_ALLOW_NOTUNNEL_USER="true"
 
    ## Control Port Filter Proxy Port
    [ -n "$CONTROL_PORT_FILTER_PROXY_PORT" ] || CONTROL_PORT_FILTER_PROXY_PORT="9051"
@@ -301,6 +304,11 @@ ipv4_output() {
       if [ "$TUNNEL_FIREWALL_ALLOW_SDWDATE_USER" = "true" ]; then
          $iptables_cmd -A OUTPUT -m owner --uid-owner "$SDWDATE_USER" -m iprange --dst-range "127.0.0.1" -j ACCEPT
          $iptables_cmd -A OUTPUT -m owner --uid-owner "$SDWDATE_USER" -m iprange --dst-range "$GATEWAY_IP" -j ACCEPT
+      fi
+
+      if [ "$TUNNEL_FIREWALL_ALLOW_NOTUNNEL_USER" = "true" ]; then
+         $iptables_cmd -A OUTPUT -m owner --uid-owner "$NOTUNNEL_USER" -m iprange --dst-range "127.0.0.1" -j ACCEPT
+         $iptables_cmd -A OUTPUT -m owner --uid-owner "$NOTUNNEL_USER" -m iprange --dst-range "$GATEWAY_IP" -j ACCEPT
       fi
 
       ## Accept outgoing connections to local network.
