@@ -293,7 +293,7 @@ ipv4_output() {
    ## DISABLED BY DEFAULT.
    if [ "$TUNNEL_FIREWALL_ENABLE" = "true" ]; then
       if [ "$firewall_mode" = "timesync-fail-closed" ]; then
-         true "firewall_mode is $firewall_mode, therefore not allowing user $TUNNEL_USER traffic."
+         true "firewall_mode is $firewall_mode, therefore prohibiting user $TUNNEL_USER traffic."
       else
          true "firewall_mode is $firewall_mode, therefore allowing user $TUNNEL_USER traffic."
          ## Connections to VPN servers are allowed,
@@ -352,7 +352,7 @@ ipv4_output() {
       fi
    else
       if [ "$firewall_mode" = "timesync-fail-closed" ]; then
-         true "firewall_mode is $firewall_mode, therefore not allowing DNS traffic."
+         true "firewall_mode is $firewall_mode, therefore prohibiting DNS traffic."
       else
          true "firewall_mode is $firewall_mode, therefore allowing DNS traffic."
          ## Allow Whonix-Workstation to query Whonix-Gateway for DNS.
@@ -379,7 +379,7 @@ ipv4_output() {
       $iptables_cmd -A OUTPUT ! -p tcp -j REJECT --reject-with icmp-port-unreachable
 
       if [ "$firewall_mode" = "timesync-fail-closed" ]; then
-         true "firewall_mode is $firewall_mode, therefore not allowing all outgoing traffic."
+         true "firewall_mode is $firewall_mode, therefore prohibiting all outgoing traffic."
 
          ## Allow sdwdate talking to localhost and Tor in Whonix firewall timesync-fail-closed mode.
          ## Otherwise in Whonix firewall full mode this rule is redundant.
