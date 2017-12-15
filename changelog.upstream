@@ -1,3 +1,21 @@
+commit bd8d2c82bbf48db60c47650ff9cfd075709ec467
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Dec 2 19:23:26 2017 +0000
+
+    Setting firewall_mode always to full by default because the following
+    usability issues are not yet resolved. Help welcome!
+    Non-Qubes-Whonix: enable sdwdate-gui systray by default
+    https://phabricator.whonix.org/T636
+    Qubes-Whonix: make sdwdate-gui Qubes friendlhttps://phabricator.whonix.org/T534
+    
+    firewall_mode=full
+
+commit e86cf6a89eff02360623b361afc8357e055f4415
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Wed Jul 26 14:46:05 2017 +0000
+
+    bumped changelog version
+
 commit 7ac10e2fb1d58b3e759fc71b91ec324eae0ac374
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Wed Jul 26 14:22:50 2017 +0000
