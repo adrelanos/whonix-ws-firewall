@@ -1,3 +1,15 @@
+commit 23f4c11ed59bdef0dce462e722ec7722d06ad108
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Sat Dec 16 23:30:25 2017 +0000
+
+    fix Qubes DNS
+
+commit 3c1080121b5de2d8f77297c4a5ac6ff5ab8f38c4
+Author: Patrick Schleizer <adrelanos@riseup.net>
+Date:   Fri Dec 15 18:45:08 2017 +0000
+
+    bumped changelog version
+
 commit bd8d2c82bbf48db60c47650ff9cfd075709ec467
 Author: Patrick Schleizer <adrelanos@riseup.net>
 Date:   Sat Dec 2 19:23:26 2017 +0000
