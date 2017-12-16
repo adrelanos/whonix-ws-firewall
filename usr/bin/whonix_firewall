@@ -197,6 +197,28 @@ qubes() {
    true
 }
 
+qubes_dns() {
+   local counter
+   counter=0
+
+   if qubes_primary_dns="$(qubesdb-read /qubes-primary-dns)" ; then
+      $iptables_cmd -A OUTPUT -p udp --dport 53 --dst "$qubes_primary_dns" -j ACCEPT
+      counter=$(( counter + 1 ))
+   fi
+
+   if qubes_secondary_dns="$(qubesdb-read /qubes-secondary-dns)" ; then
+      $iptables_cmd -A OUTPUT -p udp --dport 53 --dst "$qubes_secondary_dns" -j ACCEPT
+      counter=$(( counter + 1 ))
+   fi
+
+   if [ "$counter" -ge "2" ]; then
+      echo "OK: Qubes DNS firewall rules ok."
+   else
+      echo "INFO: Small(!) issue. Qubes DNS firewall fallback rules active. Please report this."
+      $iptables_cmd -A OUTPUT -p udp --dport 53 -j ACCEPT
+   fi
+}
+
 ipv4_input_rules() {
    ## Traffic on the loopback interface is accepted.
    $iptables_cmd -A INPUT -i lo -j ACCEPT
@@ -357,6 +379,9 @@ ipv4_output() {
          true "firewall_mode is $firewall_mode, therefore allowing DNS traffic."
          ## Allow Whonix-Workstation to query Whonix-Gateway for DNS.
          $iptables_cmd -A OUTPUT -p udp --dport 53 --dst "$GATEWAY_IP" -j ACCEPT
+         if [ -d "/usr/lib/qubes" ]; then
+            qubes_dns
+         fi
       fi
 
       ## Not sure about the next one. UDP is not supported by Tor, why not
