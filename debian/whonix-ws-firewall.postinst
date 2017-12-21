@@ -53,6 +53,8 @@ case "$1" in
          fi
       done
 
+      adduser --system --quiet --no-create-home --shell /bin/false updatesproxycheck
+
       true "INFO: End configuring $DPKG_MAINTSCRIPT_PACKAGE."
 
       ;;

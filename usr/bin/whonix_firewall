@@ -88,6 +88,8 @@ variables_defaults() {
 
    [ -n "$TUNNEL_USER" ] || TUNNEL_USER="$(id -u tunnel)"
    [ -n "$NOTUNNEL_USER" ] || NOTUNNEL_USER="$(id -u notunnel)"
+   [ -n "$UPDATESPROXYCHECK_USER" ] || UPDATESPROXYCHECK_USER="$(id -u updatesproxycheck)"
+
    [ -n "$SDWDATE_USER" ] || SDWDATE_USER="$(id -u sdwdate)" || true
    [ -n "$WHONIXCHECK_USER" ] || WHONIXCHECK_USER="$(id -u whonixcheck)" || true
 
@@ -95,6 +97,8 @@ variables_defaults() {
 
    ## Control Port Filter Proxy Port
    [ -n "$CONTROL_PORT_FILTER_PROXY_PORT" ] || CONTROL_PORT_FILTER_PROXY_PORT="9051"
+
+   [ -n "$qubes_updates_proxy_port" ] || qubes_updates_proxy_port="8082"
 
    ## Socks Ports for per application circuits.
    [ -n "$SOCKS_PORT_TOR_DEFAULT" ] || SOCKS_PORT_TOR_DEFAULT="9050"
@@ -292,6 +296,32 @@ ipv4_reject_invalid_outgoing_packages() {
    fi
 }
 
+qubes_updates_proxy() {
+   ## Detect Qubes.
+   if [ ! -d "/usr/lib/qubes" ]; then
+      return 0
+   fi
+
+   ## Detect being run inside TemplateVM.
+   if [ ! -f "/var/run/qubes/this-is-templatevm" ]; then
+      return 0
+   fi
+
+   ## Detect if torified Qubes updates proxy was detected.
+   if test -f "/var/run/qubes-service/whonix-secure-proxy" ; then
+      echo "OK: Torified Qubes Updates Proxy check ok. Full access to Qubes Updates Proxy."
+      return 0
+   fi
+
+   echo "OK: Torified Qubes Updates Proxy check not done yet. Limiting access to Qubes Updates Proxy to user 'updatesproxycheck'."
+
+   $iptables_cmd -A OUTPUT -m owner --uid-owner "$UPDATESPROXYCHECK_USER" -m iprange --dst-range "127.0.0.1" -p tcp --dport "$qubes_updates_proxy_port" -j ACCEPT
+   $iptables_cmd -A OUTPUT -m owner --uid-owner "$UPDATESPROXYCHECK_USER" -m iprange --dst-range "10.137.255.254" -p tcp --dport "$qubes_updates_proxy_port" -j ACCEPT
+
+   $iptables_cmd -A OUTPUT -m iprange --dst-range "127.0.0.1" -p tcp --dport "$qubes_updates_proxy_port" -j REJECT --reject-with icmp-admin-prohibited
+   $iptables_cmd -A OUTPUT -m iprange --dst-range "10.137.255.254" -p tcp --dport "$qubes_updates_proxy_port" -j REJECT --reject-with icmp-admin-prohibited
+}
+
 ipv4_output() {
    ## Prevent connections to Tor SocksPorts.
    ## https://phabricator.whonix.org/T533#11025
@@ -305,6 +335,8 @@ ipv4_output() {
          $iptables_cmd -A OUTPUT -p tcp --dport "${!socks_port_item}" --dst "127.0.0.1" -j REJECT
       done
    fi
+
+   qubes_updates_proxy
 
    ## Access to localhost is required even in timesync-fail-closed mode,
    ## otherwise breaks applications such as konsole and kwrite.
